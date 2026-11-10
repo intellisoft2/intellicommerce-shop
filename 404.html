@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IntelliCommerce — Intelligent commerce by Intellisoft</title>
+<meta name="description" content="IntelliCommerce runs your storefront, point of sale, inventory, fulfillment and delivery from one console, with AI agents and a verifiable trust layer. Launch a store in minutes.">
+<meta property="og:title" content="IntelliCommerce — Intelligent commerce">
+<meta property="og:description" content="Storefront, POS, inventory and delivery in one console, with AI agents that act. Free plan and live demo stores.">
+<meta property="og:url" content="https://shop.intellisoft-tech.com/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#070B14">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23070B14'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%231AEDC9'/%3E%3C/svg%3E">
+<style>
+  html,body{margin:0;height:100%;background:#070B14;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  #app{position:fixed;inset:0;width:100%;height:100%;border:0;display:block;background:transparent}
+  #wait{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#A7B0C8;font-size:13px;z-index:-1;
+        background:radial-gradient(800px 420px at 50% 35%,rgba(26,237,201,.08),transparent 60%),#070B14}
+  #wait .m{width:52px;height:52px;border-radius:15px;display:grid;place-items:center;border:1px solid rgba(26,237,201,.4);background:rgba(26,237,201,.1)}
+  #wait .m i{width:13px;height:13px;border-radius:50%;background:#1AEDC9;box-shadow:0 0 16px #1AEDC9;animation:p 1.6s ease-in-out infinite}
+  #wait b{font-size:19px;color:#F1F4FA;letter-spacing:-.02em}
+  @keyframes p{50%{opacity:.6;transform:scale(.9)}}
+</style>
+</head>
+<body>
+<div id="wait"><div class="m"><i></i></div><b>IntelliCommerce</b><span>Loading…</span></div>
+<iframe id="app" title="IntelliCommerce" allow="camera; geolocation; clipboard-read; clipboard-write; fullscreen; payment" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<noscript><p style="padding:20px;color:#F1F4FA">IntelliCommerce needs JavaScript turned on.</p></noscript>
+<script>
+/* IntelliCommerce public address (shop.intellisoft-tech.com) — one page serves the console and EVERY store.
+   The same file is published as index.html and 404.html, so clean paths work on GitHub Pages without per-store setup:
+     /                          console: sign in, create a store, live demos
+     /s/<store>                 storefront
+     /v/<store>/<passport>      product-passport verification
+     /signup[/<package>]        start a store
+     /reset/<key>               password reset (link in the email)
+   Query strings (e.g. ?checkout=success from payment pages) are passed through.  APP is filled in by publish-site.sh. */
+var APP = 'https://script.google.com/macros/s/AKfycbzRFeXI6F7KiSUHAMA5qcPATIzrcFnLV7YDtuecyzA0eIFy_WQ-6ZCQW-mBjKIM0_e_/exec';
+(function () {
+  var p = location.pathname.replace(/\/+$/, '').split('/').filter(Boolean).map(decodeURIComponent);
+  var q = new URLSearchParams(location.search);
+  if (p[0] === 's' && p[1]) { q.set('page', 'store'); q.set('t', p[1]); document.title = 'Shop · ' + p[1].replace(/-/g, ' '); }
+  else if (p[0] === 'v' && p[1] && p[2]) { q.set('page', 'verify'); q.set('t', p[1]); q.set('p', p[2]); document.title = 'Verify product · IntelliCommerce'; }
+  else if (p[0] === 'signup' || p[0] === 'pricing') { q.set('page', 'signup'); if (p[1]) q.set('pkg', p[1]); document.title = 'Create your store · IntelliCommerce'; }
+  else if (p[0] === 'reset' && p[1]) { q.set('page', 'reset'); q.set('k', p[1]); document.title = 'Reset password · IntelliCommerce'; }
+  var qs = q.toString();
+  document.getElementById('app').src = APP + (qs ? '?' + qs : '');
+})();
+</script>
+</body>
+</html>
